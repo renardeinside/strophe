@@ -6,6 +6,9 @@
   "chrome_url_overrides": {
     "newtab": "index.html"
   },
+  "author": {
+    "email": "renardeinside@gmail.com"
+  },
   "permissions": [
     "storage"
   ],
