@@ -8,6 +8,10 @@ The note is saved automatically to the local storage, so you can close the tab a
 
 Note is only saved in the `local` storage. No server is involved in the process.
 
+## Example
+
+![Strophe](./assets/screenshots/dark.png)
+
 ## Technologies used
 
 - [Vite](https://vitejs.dev/) - build tool
