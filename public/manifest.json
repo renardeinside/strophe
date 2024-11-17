@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "Strophe",
+  "version": "0.1.0",
+  "description": "Strophe - make newtab a place for your thoughts and notes",
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "permissions": [
+    "storage"
+  ],
+  "icons": {
+    "16": "favicon-16x16.png",
+    "32": "favicon-32x32.png",
+    "57": "favicon-57x57.png",
+    "72": "favicon-72x72.png",
+    "96": "favicon-96x96.png",
+    "114": "favicon-114x114.png"
+  }
+}

@@ -1,0 +1,19 @@
+# Strophe - minimalistic newtab extension for Chrome
+
+Strope is a simple yet functional newtab extension for Chrome.
+
+It features nothing but a single-page note page, where you can write down your thoughts, ideas, or anything you want to remember.
+
+The note is saved automatically to the local storage, so you can close the tab and come back to it later.
+
+Note is only saved in the `sync` storage, so you can access it from any device you are logged in to Chrome with. No server is involved in the process.
+
+## Technologies used
+
+- [Vite](https://vitejs.dev/) - build tool
+- [React](https://reactjs.org/) - UI library
+- [TypeScript](https://www.typescriptlang.org/) - language
+- [Tailwind CSS](https://tailwindcss.com/) - CSS framework
+- [shadcn/ui](https://ui.shadcn.com) - UI components
+- [TipTap](https://www.tiptap.dev/) - rich text editor
+- [Jotai](https://jotai.org/) - state management
