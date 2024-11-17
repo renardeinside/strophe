@@ -54,7 +54,7 @@ const extensions = [
 
 const Editor = () => {
   const [content, setContent] = useAtom(contentAtom);
-    const [cursorPosition, setCursorPosition] = useAtom(cursorPositionAtom);
+  const [cursorPosition, setCursorPosition] = useAtom(cursorPositionAtom);
 
   const editor = useEditor({
     extensions,
@@ -66,10 +66,8 @@ const Editor = () => {
       setContent(editor.getHTML());
     },
     onCreate: ({ editor }) => {
-      if (cursorPosition) {
-        let fmtPos = parseInt(cursorPosition);
-        editor.chain().focus().setTextSelection(fmtPos).run();
-      }
+      const setPos = cursorPosition ? parseInt(cursorPosition) : 5;
+      editor.chain().focus().setTextSelection(setPos).run();
     },
     editorProps: {
       attributes: {

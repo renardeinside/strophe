@@ -34,11 +34,11 @@ export default function EditorMenu({ editor }: { editor: Editor }) {
     {
       icon: Underline,
       title: "Underline",
-      // @ts-ignore
+      // @ts-expect-error - underline is not in the core
       action: () => editor.chain().focus().toggleUnderline().run(),
       variant: editor.isActive('underline') ? 'default' : 'ghost',
     },
-  ] as { icon: any; title: string; action: () => void; variant: 'primary' | 'ghost' }[];
+  ];
 
   return (
     <div className="fixed bottom-4 right-4 z-50">
@@ -60,7 +60,7 @@ export default function EditorMenu({ editor }: { editor: Editor }) {
           {formatOptions.map((option) => (
             <DropdownMenuItem key={option.title} asChild>
               <Button
-                // @ts-ignore
+                // @ts-expect-error - string doesn't match enum
                 variant={option.variant}
                 size="icon"
                 className="h-10 w-10 rounded-sm"
