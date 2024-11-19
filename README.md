@@ -8,6 +8,14 @@ The note is saved automatically to the local storage, so you can close the tab a
 
 Note is only saved in the `local` storage. No server is involved in the process.
 
+## Installation
+
+Please follow standard Chrome extension installation procedure here: [Install Chrome extensions](https://chromewebstore.google.com/detail/strophe/nfeehfdifaamihffeabhamemjjgnfnkp?authuser=0&hl=en-GB)
+
+## Caveats
+
+`Strophe` is not working in `Arc` browser. This is due to the fact that `Arc` browser does not support `newtab` extensions.
+
 ## Example
 
 ![Strophe](./assets/screenshots/dark.png)
