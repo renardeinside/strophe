@@ -12,6 +12,12 @@ Note is only saved in the `local` storage. No server is involved in the process.
 
 ![Strophe](./assets/screenshots/dark.png)
 
+## Support
+
+If you really like Strophe, you can support me by buying me a coffee.
+
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://buymeacoffee.com/renardeinside)
+
 ## Technologies used
 
 - [Vite](https://vitejs.dev/) - build tool
