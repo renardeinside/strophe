@@ -16,8 +16,8 @@ const manifestPath = path.resolve(__dirname, '../public/manifest.json');
 // Read the manifest file
 const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf-8'));
 
-// Update the version in the manifest file
-manifest.version = versionArg;
+// strip the v from the version and update the version in the manifest file
+manifest.version = versionArg.replace(/^v/, '');
 
 // Write the updated manifest file
 fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2), 'utf-8');
