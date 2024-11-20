@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build && zip -r dist/strophe.zip dist",
+    "build": "tsc -b && vite build --emptyOutDir && zip -r dist/strophe.zip dist",
     "lint": "eslint .",
     "preview": "vite preview"
   },
