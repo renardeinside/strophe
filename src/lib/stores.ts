@@ -1,27 +1,6 @@
 import { atomWithStorage, createJSONStorage } from "jotai/utils";
 import { AsyncStringStorage } from "jotai/vanilla/utils/atomWithStorage";
 
-// class ChromeStorage implements SyncStorage<string | null> {
-// getItem(key: string): string | null {
-//     console.log("Getting item from storage: ", key);
-//     let value: string | null = null;
-//     chrome.storage.local.get(key, (result) => {
-//         console.log("Got result: ", result);
-//         value = result[key];
-//     });
-//     console.log("Got value: ", value);
-//     return value;
-// }
-//   setItem(key: string, newValue: string | null): void {
-//     console.log("Setting item in storage: ", key, newValue);
-//     chrome.storage.local.set({ [key]: newValue });
-//     console.log("Set value: ", newValue);
-//   }
-//   removeItem(key: string): void {
-//     chrome.storage.local.remove(key);
-//   }
-// }
-
 class ChromeStorage implements AsyncStringStorage {
   getItem(key: string): Promise<string | null> {
     return new Promise((resolve) => {
@@ -40,6 +19,20 @@ class ChromeStorage implements AsyncStringStorage {
       chrome.storage.local.remove(key, resolve);
     });
   }
+
+  subscribe(key: string, callback: (value: string | null) => void): () => void {
+    const listener = (changes: {
+      [key: string]: chrome.storage.StorageChange;
+    }) => {
+      if (changes[key]) {
+        callback(changes[key].newValue);
+      }
+    };
+    chrome.storage.onChanged.addListener(listener);
+    return () => {
+      chrome.storage.onChanged.removeListener(listener);
+    };
+  }
 }
 
 class LocalStorage implements AsyncStringStorage {
@@ -52,6 +45,16 @@ class LocalStorage implements AsyncStringStorage {
   removeItem(key: string): Promise<void> {
     return Promise.resolve(localStorage.removeItem(key));
   }
+
+  subscribe(key: string, callback: (value: string | null) => void): () => void {
+    const listener = () => {
+      callback(localStorage.getItem(key));
+    };
+    window.addEventListener("storage", listener);
+    return () => {
+      window.removeEventListener("storage", listener);
+    };
+  }
 }
 
 function isRunningAsChromeExtension(): boolean {
@@ -60,27 +63,21 @@ function isRunningAsChromeExtension(): boolean {
 
 const getStorage = () => {
   const asExtension = isRunningAsChromeExtension();
-  return asExtension
-    ? createJSONStorage<string | null>(() => new ChromeStorage())
-    : createJSONStorage<string | null>(() => new LocalStorage());
+  const storageProvider = asExtension
+    ? () => new ChromeStorage()
+    : () => new LocalStorage();
+  return createJSONStorage<string | null>(storageProvider);
 };
 
-const storage = getStorage();
+export const $storage = getStorage();
+
+const ST_CONTENT_KEY = "st-content";
 
 export const contentAtom = atomWithStorage<string | null>(
-  "st-content",
+  ST_CONTENT_KEY,
   "<p></p>".repeat(20),
-  storage,
+  $storage,
   {
     getOnInit: true,
-  }
-);
-
-export const cursorPositionAtom = atomWithStorage<string | null>(
-  "st-cursor-position",
-  null,
-  storage,
-  {
-    getOnInit: true,
-  }
+  },
 );

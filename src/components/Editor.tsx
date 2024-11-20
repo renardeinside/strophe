@@ -5,12 +5,13 @@ import Link from "@tiptap/extension-link";
 import { all, createLowlight } from "lowlight";
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import { useAtom } from "jotai";
-import { contentAtom, cursorPositionAtom } from "@/lib/stores";
+import { $storage, contentAtom } from "@/lib/stores";
 import TaskList from "@tiptap/extension-task-list";
 import TaskItem from "@tiptap/extension-task-item";
 import Image from "@tiptap/extension-image";
 import { nodePasteRule, type PasteRuleFinder } from "@tiptap/core";
 import EditorMenu from "./EditorMenu";
+import { useEffect } from "react";
 
 const ImageFinder: PasteRuleFinder = /data:image\//g;
 
@@ -54,20 +55,12 @@ const extensions = [
 
 const Editor = () => {
   const [content, setContent] = useAtom(contentAtom);
-  const [cursorPosition, setCursorPosition] = useAtom(cursorPositionAtom);
 
   const editor = useEditor({
     extensions,
     content: content,
-    onTransaction: ({ editor }) => {
-      setCursorPosition(`${editor.state.selection.from}`); // yes, this is hacky
-    },
     onUpdate: ({ editor }) => {
       setContent(editor.getHTML());
-    },
-    onCreate: ({ editor }) => {
-      const setPos = cursorPosition ? parseInt(cursorPosition) : 5;
-      editor.chain().focus().setTextSelection(setPos).run();
     },
     editorProps: {
       attributes: {
@@ -76,6 +69,19 @@ const Editor = () => {
       },
     },
   });
+
+  useEffect(() => {
+    const unsubscribe = $storage.subscribe!('st-content', (value) => {
+      if (editor) {
+        editor.commands.setContent(value);
+      }
+    }, null);
+
+    return () => {
+      unsubscribe();
+    };
+  }, [editor]);
+
 
   return (
     <>
