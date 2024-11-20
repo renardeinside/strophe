@@ -7,3 +7,12 @@ prepare-publishing-assets:
 	magick mogrify -resize 440x280! -density 72 -depth 24 -format png assets/small_tile.png
 	magick mogrify -resize 1400x560! -density 72 -depth 24 -format png assets/marquee.png
 	@echo "Assets prepared for publishing."
+
+release: 
+	@echo "Releasing version $(version)..."
+	yarn run bump $(version)
+	git add .
+	git commit -m "Release: $(version)"
+	git tag -a $(version) -m "Release: $(version)"
+	git push --follow-tags
+

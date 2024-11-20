@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Strophe",
-  "version": "0.1.0",
+  "version": "v0.1.3",
   "description": "Strophe - make newtab a place for your thoughts and notes",
   "chrome_url_overrides": {
     "newtab": "index.html"
