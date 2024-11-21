@@ -10,7 +10,8 @@ prepare-publishing-assets:
 
 release: 
 	@echo "Releasing version $(version)..."
-	yarn run bump $(version)
+	yarn bump $(version)
+	yarn build
 	git add .
 	git commit -m "Release: $(version)"
 	git tag -a $(version) -m "Release: $(version)"
