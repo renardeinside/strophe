@@ -1,11 +1,10 @@
 import { EditorContent, useEditor } from "@tiptap/react";
 import { useAtom } from "jotai";
-import { $storage, contentAtom } from "@/lib/stores";
+import { contentAtom, subscriptionEffect } from "@/lib/stores";
 
-import { lazy, useEffect } from "react";
-import { toast } from "sonner"
+import { lazy } from "react";
+import { toast } from "sonner";
 import { loadExtensions } from "@/lib/extensions";
-
 
 const EditorMenu = lazy(() => import("./EditorMenu"));
 
@@ -35,21 +34,9 @@ const Editor = () => {
     },
   });
 
-  useEffect(() => {
-    const unsubscribe = $storage.subscribe!(
-      "st-content",
-      (value) => {
-        if (editor) {
-          editor.commands.setContent(value ? JSON.parse(value) : "");
-        }
-      },
-      null
-    );
-
-    return () => {
-      unsubscribe();
-    };
-  }, [editor]);
+  subscriptionEffect("st-content", editor, (value) => {
+    editor && editor.commands.setContent(safeParse(value));
+  });
 
   return (
     <>

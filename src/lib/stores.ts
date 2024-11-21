@@ -1,5 +1,7 @@
+import { Editor } from "@tiptap/core";
 import { atomWithStorage, createJSONStorage } from "jotai/utils";
 import { AsyncStringStorage } from "jotai/vanilla/utils/atomWithStorage";
+import { useEffect } from "react";
 
 class ChromeStorage implements AsyncStringStorage {
   getItem(key: string): Promise<string | null> {
@@ -73,12 +75,11 @@ export const $storage = getStorage();
 
 const ST_CONTENT_KEY = "st-content";
 
-
 const defaultContent = {
-  "type": "doc",
-  "content": Array(20).fill({
-    "type": "paragraph"
-  })
+  type: "doc",
+  content: Array(20).fill({
+    type: "paragraph",
+  }),
 };
 
 export const contentAtom = atomWithStorage<string | null>(
@@ -87,5 +88,23 @@ export const contentAtom = atomWithStorage<string | null>(
   $storage,
   {
     getOnInit: true,
-  },
+  }
 );
+
+export const subscriptionEffect = (
+  key: string,
+  editor: Editor | null,
+  callback: (value: string | null) => void
+) => {
+  useEffect(() => {
+    const unsubscribe = $storage.subscribe!(
+      key,
+      callback,
+      null
+    );
+
+    return () => {
+      unsubscribe();
+    };
+  }, [editor]);
+};
