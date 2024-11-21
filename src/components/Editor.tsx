@@ -2,7 +2,7 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
 import Link from "@tiptap/extension-link";
-import { all, createLowlight } from "lowlight";
+import { createLowlight, common } from "lowlight";
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import { useAtom } from "jotai";
 import { $storage, contentAtom } from "@/lib/stores";
@@ -34,7 +34,7 @@ const ImageExtended = Image.extend({
   },
 });
 
-const lowlight = createLowlight(all);
+const lowlight = createLowlight(common);
 
 // define your extension array
 const extensions = [
