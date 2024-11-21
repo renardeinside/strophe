@@ -13,51 +13,55 @@ import { nodePasteRule, type PasteRuleFinder } from "@tiptap/core";
 import EditorMenu from "./EditorMenu";
 import { useEffect } from "react";
 
-const ImageFinder: PasteRuleFinder = /data:image\//g;
+const getExtensions = () => {
+  const ImageFinder: PasteRuleFinder = /data:image\//g;
 
-const ImageExtended = Image.extend({
-  name: "ImageExtended",
-  addPasteRules() {
-    return [
-      nodePasteRule({
-        find: ImageFinder,
-        type: this.type,
-        getAttributes(match) {
-          if (match.input) {
-            return {
-              src: match.input,
-            };
-          }
-        },
-      }),
-    ];
-  },
-});
+  const ImageExtended = Image.extend({
+    name: "ImageExtended",
+    addPasteRules() {
+      return [
+        nodePasteRule({
+          find: ImageFinder,
+          type: this.type,
+          getAttributes(match) {
+            if (match.input) {
+              return {
+                src: match.input,
+              };
+            }
+          },
+        }),
+      ];
+    },
+  });
 
-const lowlight = createLowlight(common);
+  const lowlight = createLowlight(common);
 
-// define your extension array
-const extensions = [
-  StarterKit.configure({
-    codeBlock: false,
-  }),
-  CodeBlockLowlight.configure({
-    lowlight,
-  }),
-  Placeholder.configure({ placeholder: "Start typing..." }),
-  Link.configure({ openOnClick: true, autolink: true }),
-  TaskList,
-  TaskItem.configure({
-    nested: true,
-  }),
-  ImageExtended,
-];
+  // define your extension array
+  const extensions = [
+    StarterKit.configure({
+      codeBlock: false,
+    }),
+    CodeBlockLowlight.configure({
+      lowlight,
+    }),
+    Placeholder.configure({ placeholder: "Start typing..." }),
+    Link.configure({ openOnClick: true, autolink: true }),
+    TaskList,
+    TaskItem.configure({
+      nested: true,
+    }),
+    ImageExtended,
+  ];
+
+  return extensions;
+};
 
 const Editor = () => {
   const [content, setContent] = useAtom(contentAtom);
 
   const editor = useEditor({
-    extensions,
+    extensions: getExtensions(),
     content: content ? JSON.parse(content) : "",
     onUpdate: ({ editor }) => {
       setContent(JSON.stringify(editor.getJSON()));
@@ -71,17 +75,20 @@ const Editor = () => {
   });
 
   useEffect(() => {
-    const unsubscribe = $storage.subscribe!('st-content', (value) => {
-      if (editor) {
-        editor.commands.setContent(value ? JSON.parse(value) : "");
-      }
-    }, null);
+    const unsubscribe = $storage.subscribe!(
+      "st-content",
+      (value) => {
+        if (editor) {
+          editor.commands.setContent(value ? JSON.parse(value) : "");
+        }
+      },
+      null
+    );
 
     return () => {
       unsubscribe();
     };
   }, [editor]);
-
 
   return (
     <>
