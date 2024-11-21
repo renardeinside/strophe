@@ -58,9 +58,9 @@ const Editor = () => {
 
   const editor = useEditor({
     extensions,
-    content: content,
+    content: content ? JSON.parse(content) : "",
     onUpdate: ({ editor }) => {
-      setContent(editor.getHTML());
+      setContent(JSON.stringify(editor.getJSON()));
     },
     editorProps: {
       attributes: {
@@ -73,7 +73,7 @@ const Editor = () => {
   useEffect(() => {
     const unsubscribe = $storage.subscribe!('st-content', (value) => {
       if (editor) {
-        editor.commands.setContent(value);
+        editor.commands.setContent(value ? JSON.parse(value) : "");
       }
     }, null);
 

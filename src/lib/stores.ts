@@ -73,9 +73,17 @@ export const $storage = getStorage();
 
 const ST_CONTENT_KEY = "st-content";
 
+
+const defaultContent = {
+  "type": "doc",
+  "content": Array(20).fill({
+    "type": "paragraph"
+  })
+};
+
 export const contentAtom = atomWithStorage<string | null>(
   ST_CONTENT_KEY,
-  "<p></p>".repeat(20),
+  JSON.stringify(defaultContent),
   $storage,
   {
     getOnInit: true,
