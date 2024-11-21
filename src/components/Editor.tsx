@@ -12,6 +12,7 @@ import Image from "@tiptap/extension-image";
 import { nodePasteRule, type PasteRuleFinder } from "@tiptap/core";
 import EditorMenu from "./EditorMenu";
 import { useEffect } from "react";
+import { toast } from "sonner";
 
 const getExtensions = () => {
   const ImageFinder: PasteRuleFinder = /data:image\//g;
@@ -60,9 +61,18 @@ const getExtensions = () => {
 const Editor = () => {
   const [content, setContent] = useAtom(contentAtom);
 
+  const safeParse = (value: string | null) => {
+    try {
+      return value ? JSON.parse(value) : "";
+    } catch (e) {
+      toast.error(`Failed to parse content due to ${e}`);
+      return "";
+    }
+  };
+
   const editor = useEditor({
     extensions: getExtensions(),
-    content: content ? JSON.parse(content) : "",
+    content: safeParse(content),
     onUpdate: ({ editor }) => {
       setContent(JSON.stringify(editor.getJSON()));
     },
