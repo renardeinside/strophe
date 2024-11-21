@@ -5,6 +5,26 @@ import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 // https://vite.dev/config/
 export default defineConfig({
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: (id) => {
+          if (id.includes("react")) {
+            return "react";
+          }
+          if (id.includes("tiptap")) {
+            return "tiptap";
+          }
+          if (id.includes("highlight.js")) {
+            return "highlight";
+          }
+          if (id.includes("prosemirror")) {
+            return "prosemirror";
+          }
+        }
+      }
+    }
+  },
   plugins: [
     react(),
     viteStaticCopy({

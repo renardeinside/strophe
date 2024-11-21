@@ -1,9 +1,12 @@
-import Editor from "./components/Editor";
 import { Navbar } from "./components/Navbar";
 import { ThemeProvider } from "./components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { lazy } from "react";
+
+const Editor = lazy(() => import("./components/Editor"));
 
 function App() {
+  
   return (
     <ThemeProvider defaultTheme="dark" storageKey="strophe-theme">
       <div className="font-mono">
