@@ -26,10 +26,11 @@ const Editor = () => {
     onUpdate: ({ editor }) => {
       setContent(JSON.stringify(editor.getJSON()));
     },
+    autofocus: true,
     editorProps: {
       attributes: {
         class:
-          "!w-full prose !max-w-none dark:prose-invert sm:prose-sm md:prose-md focus:outline-none min-h-[90vh]",
+          "!w-full prose !max-w-none dark:prose-invert sm:prose-sm md:prose-md focus:outline-none min-h-[90vh] autofocus",
       },
     },
   });
