@@ -6,10 +6,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build --emptyOutDir && zip -r dist/strophe.zip dist",
+    "build": "tsc -b && vite build --emptyOutDir",
+    "package": "yarn build && && zip -r dist/strophe.zip dist",
     "bump": "node scripts/version-bump.mjs",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@fontsource-variable/fira-code": "^5.1.0",
@@ -47,6 +49,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",
+    "@playwright/test": "^1.49.0",
     "@types/node": "^22.9.0",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
