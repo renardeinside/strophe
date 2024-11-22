@@ -71,7 +71,7 @@
 
 /* Basic editor styles */
 .tiptap {
-  p.is-empty::before {
+  p.is-editor-empty:first-child::before {
     @apply text-foreground/50;
     content: attr(data-placeholder);
     float: left;
