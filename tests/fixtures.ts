@@ -1,24 +1,23 @@
-import { test as base, chromium, type BrowserContext } from "@playwright/test";
+import {
+  test as base,
+  chromium,
+  Page,
+  type BrowserContext,
+} from "@playwright/test";
 import path from "path";
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-import { execSync } from 'child_process';
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 type ExtensionFixtures = {
   context: BrowserContext;
+  newtab: Page;
 };
-
-
 
 export const test = base.extend<ExtensionFixtures>({
   context: async ({}, use) => {
-    console.log(`Building extension`);
-    // run yarn build
-    execSync('yarn build', { stdio: 'inherit' });
-    console.log(`Extension built`);
     const pathToExtension = path.join(__dirname, "../dist");
     console.log(`Loading extension from ${pathToExtension}`);
     const context = await chromium.launchPersistentContext("", {
@@ -31,7 +30,13 @@ export const test = base.extend<ExtensionFixtures>({
     console.log(`Extension loaded`);
     await use(context);
     await context.close();
-  }
+  },
+  newtab: async ({ context }, use) => {
+    const newtab = await context.newPage();
+    await newtab.goto("chrome://newtab");
+    await newtab.waitForSelector("#root > div > nav > svg");
+    await use(newtab);
+  },
 });
 
 export { expect } from "@playwright/test";
