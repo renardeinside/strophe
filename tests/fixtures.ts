@@ -27,7 +27,6 @@ export const getPreparedTab = async (context: BrowserContext) => {
 export const test = base.extend<ExtensionFixtures>({
   context: async ({}, use) => {
     const pathToExtension = path.join(__dirname, "../dist");
-    console.log(`Loading extension from ${pathToExtension}`);
     const context = await chromium.launchPersistentContext("", {
       headless: false,
       args: [
@@ -36,7 +35,6 @@ export const test = base.extend<ExtensionFixtures>({
         `--load-extension=${pathToExtension}`,
       ],
     });
-    console.log(`Extension loaded`);
     await use(context);
     await context.close();
   },
