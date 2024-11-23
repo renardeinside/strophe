@@ -6,6 +6,15 @@ import { useYDoc } from "@/hooks/use-doc";
 
 const EditorMenu = lazy(() => import("./EditorMenu"));
 
+const Loading = () => {
+  return (
+    <div className="flex flex-col space-y-2 justify-center h-96 items-center">
+      <LoaderCircle className="animate-spin h-8 w-8" />
+      <span>Loading</span>
+    </div>
+  );
+};
+
 const Editor = () => {
   const { doc, loaded } = useYDoc();
 
@@ -21,10 +30,10 @@ const Editor = () => {
 
   useEffect(() => {
     if (loaded && editor) {
-      editor.commands.focus('end');
+      editor.commands.focus("end");
     }
   }, [loaded, editor]);
-
+  
   return (
     <>
       {loaded ? (
@@ -34,12 +43,7 @@ const Editor = () => {
             <EditorMenu editor={editor} />
           </div>
         )
-      ) : (
-        <div className="flex flex-col space-y-2 justify-center h-96 items-center">
-          <LoaderCircle className="animate-spin h-8 w-8" />
-          <span>Loading</span>
-        </div>
-      )}
+      ) :<Loading />}
     </>
   );
 };
