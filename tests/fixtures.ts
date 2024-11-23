@@ -16,6 +16,14 @@ type ExtensionFixtures = {
   newtab: Page;
 };
 
+export const getPreparedTab = async (context: BrowserContext) => {
+  const newtab = await context.newPage();
+  await newtab.goto("chrome://newtab");
+  await newtab.waitForSelector("#root > div > nav > svg");
+  await newtab.waitForSelector(".ProseMirror");
+  return newtab;
+};
+
 export const test = base.extend<ExtensionFixtures>({
   context: async ({}, use) => {
     const pathToExtension = path.join(__dirname, "../dist");
@@ -33,10 +41,9 @@ export const test = base.extend<ExtensionFixtures>({
     await context.close();
   },
   newtab: async ({ context }, use) => {
-    const newtab = await context.newPage();
-    await newtab.goto("chrome://newtab");
-    await newtab.waitForSelector("#root > div > nav > svg");
+    const newtab = await getPreparedTab(context);
     await use(newtab);
+    await newtab.close();
   },
 });
 
