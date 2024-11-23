@@ -39,7 +39,7 @@ const Editor = () => {
       {loaded ? (
         editor && (
           <div className="flex px-8 pt-4 justify-center">
-            <EditorContent editor={editor} className="w-4/5" />
+            <EditorContent editor={editor} className="w-3/5" />
             <EditorMenu editor={editor} />
           </div>
         )
