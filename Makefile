@@ -8,12 +8,12 @@ prepare-publishing-assets:
 	magick mogrify -resize 1400x560! -density 72 -depth 24 -format png assets/marquee.png
 	@echo "Assets prepared for publishing."
 
-release: 
-	@echo "Releasing version $(version)..."
+release-candidate: 
+	@echo "Release candidate $(version)..."
 	yarn bump $(version)
 	yarn package
 	git add .
-	git commit -m "Release: $(version)"
-	git tag -a $(version) -m "Release: $(version)"
+	git commit -m "Release candidate $(version)"
+	git tag -a $(version) -m "Release candidate $(version)"
 	git push --follow-tags
 
