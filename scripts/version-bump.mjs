@@ -23,3 +23,17 @@ manifest.version = versionArg.replace(/^v/, '');
 fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2), 'utf-8');
 
 console.log(`Updated manifest version to ${versionArg}`);
+
+// also, bump the version in the package.json
+const packagePath = path.resolve(__dirname, '../package.json');
+const packageJson = JSON.parse(fs.readFileSync(packagePath, 'utf-8'));
+
+packageJson.version = versionArg.replace(/^v/, '');
+
+fs.writeFileSync(
+    packagePath,
+    JSON.stringify(packageJson, null, 2),
+    'utf-8'
+);
+
+console.log(`Updated package.json version to ${versionArg}`);
