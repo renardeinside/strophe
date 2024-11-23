@@ -20,3 +20,10 @@ jobs:
 
       - name: Lint
         run: yarn lint
+        
+      
+      # note: we need to build before running tests because it's a chrome extension
+      - name: Test
+        run: |
+          yarn build   
+          yarn test:e2e
