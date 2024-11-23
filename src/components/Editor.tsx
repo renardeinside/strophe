@@ -11,20 +11,19 @@ const Editor = () => {
 
   const editor = useEditor({
     extensions: [...loadExtensions(doc)],
-    autofocus: true,
     editorProps: {
       attributes: {
         class:
-          "!w-full prose !max-w-none dark:prose-invert prose-md leading-tight focus:outline-none min-h-[90vh] autofocus",
+          "!w-full prose !max-w-none dark:prose-invert prose-md leading-tight focus:outline-none min-h-[90vh]",
       },
     },
   });
 
   useEffect(() => {
-    if (editor && !editor.isFocused) {
-      editor.commands.focus();
+    if (loaded && editor) {
+      editor.commands.focus('end');
     }
-  }, [editor]);
+  }, [loaded, editor]);
 
   return (
     <>
