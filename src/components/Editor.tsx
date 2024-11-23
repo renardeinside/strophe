@@ -1,52 +1,49 @@
 import { EditorContent, useEditor } from "@tiptap/react";
-import { useAtom } from "jotai";
-import { contentAtom, subscriptionEffect } from "@/lib/stores";
-
-import { lazy } from "react";
-import { toast } from "sonner";
+import { lazy, useEffect } from "react";
 import { loadExtensions } from "@/lib/extensions";
+import { LoaderCircle } from "lucide-react";
+import { useYDoc } from "@/hooks/use-doc";
 
 const EditorMenu = lazy(() => import("./EditorMenu"));
 
-const Editor = () => {
-  const [content, setContent] = useAtom(contentAtom);
+const Loading = () => {
+  return (
+    <div className="flex flex-col space-y-2 justify-center h-96 items-center">
+      <LoaderCircle className="animate-spin h-8 w-8" />
+      <span>Loading</span>
+    </div>
+  );
+};
 
-  const safeParse = (value: string | null) => {
-    try {
-      return value ? JSON.parse(value) : "";
-    } catch (e) {
-      toast.error(`Failed to parse content due to ${e}`);
-      return "";
-    }
-  };
+const Editor = () => {
+  const { doc, loaded } = useYDoc();
 
   const editor = useEditor({
-    extensions: loadExtensions(),
-    content: safeParse(content),
-    onUpdate: ({ editor }) => {
-      setContent(JSON.stringify(editor.getJSON()));
-    },
-    autofocus: true,
+    extensions: [...loadExtensions(doc)],
     editorProps: {
       attributes: {
         class:
-          "!w-full prose !max-w-none dark:prose-invert sm:prose-sm md:prose-md focus:outline-none min-h-[90vh] autofocus",
+          "!w-full prose !max-w-none dark:prose-invert prose-md leading-tight focus:outline-none min-h-[90vh]",
       },
     },
   });
 
-  subscriptionEffect("st-content", editor, (value) => {
-    editor && editor.commands.setContent(safeParse(value));
-  });
-
+  useEffect(() => {
+    if (loaded && editor) {
+      editor.commands.focus("end");
+    }
+  }, [loaded, editor]);
+  
   return (
     <>
-      {editor && (
-        <div className="flex px-8 pt-4 justify-center">
-          <EditorContent editor={editor} className="w-4/5" />
-          <EditorMenu editor={editor} />
-        </div>
-      )}
+      {loaded ? (
+        editor && (
+          <div className="flex px-8 pt-4 justify-center">
+            <EditorContent editor={editor} className="w-4/5" />
+            <EditorMenu editor={editor} />
+          </div>
+        )
+      ) :<Loading />}
     </>
   );
 };
