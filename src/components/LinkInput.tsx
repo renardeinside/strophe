@@ -13,7 +13,7 @@ import { toast } from "sonner";
 import { Editor } from "@tiptap/core";
 
 const formSchema = z.object({
-  link: z.string().url("Please enter a valid URL"),
+  link: z.string().url("Please enter a valid URL").or(z.literal("")),
   text: z.string().min(1, "Please enter a valid text"),
 });
 
@@ -57,22 +57,28 @@ export default function LinkInput({
       setFormData({ link: "", text: "" });
       setErrors({});
 
-      editor
-        .chain()
-        .focus()
-        .extendMarkRange("link")
-        .setLink({ href: validatedData.link })
-        .insertContentAt(
-          {
-            from: editor.state.selection.from,
-            to: editor.state.selection.to,
-          },
-          validatedData.text
-        )
-        .run();
+      if (!validatedData.link) {
+        editor.chain().focus().unsetLink().run();
+        toast.success("Link removed successfully");
+      } else {
+        editor
+          .chain()
+          .focus()
+          .extendMarkRange("link")
+          .setLink({ href: validatedData.link })
+          .insertContentAt(
+            {
+              from: editor.state.selection.from,
+              to: editor.state.selection.to,
+            },
+            validatedData.text
+          )
+          .run();
 
-      toast.success("Link added successfully");
+        toast.success("Link added successfully");
+      }
     } catch (error) {
+      console.error(error);
       if (error instanceof z.ZodError) {
         setErrors(error.flatten().fieldErrors);
       }
@@ -134,12 +140,9 @@ export default function LinkInput({
             </div>
           </div>
           <div className="ml-auto space-x-2">
-            {formData.link && (
-              <Button variant={"destructive"} type="reset">
-                Remove Link
-              </Button>
-            )}
-            <Button type="submit">Save</Button>
+            <Button type="submit" variant={"outline"}>
+              Save
+            </Button>
           </div>
         </form>
       </DialogContent>

@@ -26,32 +26,26 @@ export default function EditorMenu({ editor }: { editor: Editor }) {
       icon: Bold,
       title: "Bold",
       action: () => editor.chain().focus().toggleBold().run(),
-      variant: editor.isActive("bold") ? "default" : "ghost",
     },
     {
       icon: Italic,
       title: "Italic",
       action: () => editor.chain().focus().toggleItalic().run(),
-      variant: editor.isActive("italic") ? "default" : "ghost",
     },
     {
       icon: Strikethrough,
       title: "Strikethrough",
       action: () => editor.chain().focus().toggleStrike().run(),
-      variant: editor.isActive("strike") ? "default" : "ghost",
     },
     {
       icon: Underline,
       title: "Underline",
-      // @ts-expect-error - underline is not in the core
       action: () => editor.chain().focus().toggleUnderline().run(),
-      variant: editor.isActive("underline") ? "default" : "ghost",
     },
     {
       icon: Link,
       title: "Link",
       action: () => setOpenLinkInput(true),
-      variant: editor.isActive("link") ? "default" : "ghost",
     },
   ];
 
@@ -79,8 +73,7 @@ export default function EditorMenu({ editor }: { editor: Editor }) {
             {formatOptions.map((option) => (
               <DropdownMenuItem key={option.title} asChild>
                 <Button
-                  // @ts-expect-error - string doesn't match enum
-                  variant={option.variant}
+                  variant="ghost"
                   size="icon"
                   className="h-10 w-10 rounded-sm"
                   title={option.title}
