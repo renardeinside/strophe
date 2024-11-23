@@ -21,7 +21,9 @@ const Editor = () => {
   });
 
   useEffect(() => {
-    editor && !editor.isFocused && editor.commands.focus();
+    if (editor && !editor.isFocused) {
+      editor.commands.focus();
+    }
   }, [editor]);
 
   return (
