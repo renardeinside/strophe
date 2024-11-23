@@ -55,37 +55,25 @@ export default function EditorMenu({ editor }: { editor: Editor }) {
         <LinkInput setIsOpen={setOpenLinkInput} editor={editor} />
       )}
       <div className="fixed bottom-4 right-4 z-50">
-        <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
-          <DropdownMenuTrigger asChild>
+        <div className="flex flex-col">
+          {formatOptions.map((option) => (
             <Button
-              variant="outline"
+              key={option.title}
+              variant="ghost"
               size="icon"
-              className="h-11 w-11 rounded-sm shadow-lg text-primary border-primary"
+              className="h-10 w-10 rounded-sm"
+              title={option.title}
+              onClick={() => {
+                option.action();
+                editor.view.dom.focus();
+                editor.commands.focus();
+              }}
             >
-              <Edit3 className="h-6 w-6" />
-              <span className="sr-only">Open text formatter</span>
+              <option.icon className="h-4 w-4" />
+              <span className="sr-only">{option.title}</span>
             </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            align="center"
-            className="w-12 min-w-0 bg-background rounded-sm shadow-xl"
-          >
-            {formatOptions.map((option) => (
-              <DropdownMenuItem key={option.title} asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-10 w-10 rounded-sm"
-                  title={option.title}
-                  onClick={option.action}
-                >
-                  <option.icon className="h-4 w-4" />
-                  <span className="sr-only">{option.title}</span>
-                </Button>
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
+          ))}
+        </div>
       </div>
     </>
   );

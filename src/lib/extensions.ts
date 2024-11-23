@@ -10,6 +10,7 @@ import { nodePasteRule, type PasteRuleFinder } from "@tiptap/core";
 import * as Y from "yjs";
 import Collaboration from "@tiptap/extension-collaboration";
 import Underline from "@tiptap/extension-underline";
+import TextAlign from '@tiptap/extension-text-align'
 
 export const loadExtensions = (doc: Y.Doc) => {
   const ImageFinder: PasteRuleFinder = /data:image\//g;
@@ -55,6 +56,9 @@ export const loadExtensions = (doc: Y.Doc) => {
     Collaboration.configure({
       document: doc, // Configure Y.Doc for collaboration
     }),
+    TextAlign.configure({
+      types: ['heading', 'paragraph']
+    })
   ];
 
   return extensions;
