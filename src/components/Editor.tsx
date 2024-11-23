@@ -30,7 +30,7 @@ const Editor = () => {
     editorProps: {
       attributes: {
         class:
-          "!w-full prose !max-w-none dark:prose-invert prose-2xl focus:outline-none min-h-[90vh] autofocus",
+          "!w-full prose !max-w-none dark:prose-invert prose-md leading-tight focus:outline-none min-h-[90vh] autofocus",
       },
     },
   });
