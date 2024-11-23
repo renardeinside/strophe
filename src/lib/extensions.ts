@@ -9,9 +9,10 @@ import Image from "@tiptap/extension-image";
 import { nodePasteRule, type PasteRuleFinder } from "@tiptap/core";
 import * as Y from "yjs";
 import Collaboration from "@tiptap/extension-collaboration";
-export const loadExtensions = (
-  doc: Y.Doc
-) => {
+import Underline from "@tiptap/extension-underline";
+import TextAlign from '@tiptap/extension-text-align'
+
+export const loadExtensions = (doc: Y.Doc) => {
   const ImageFinder: PasteRuleFinder = /data:image\//g;
 
   const ImageExtended = Image.extend({
@@ -37,9 +38,9 @@ export const loadExtensions = (
 
   // define your extension array
   const extensions = [
+    Underline,
     StarterKit.configure({
       codeBlock: false,
-      history: false,
     }),
     CodeBlockLowlight.configure({
       lowlight,
@@ -51,8 +52,12 @@ export const loadExtensions = (
       nested: true,
     }),
     ImageExtended,
+    // although we don't really use collaboration, it's just for Yjs to work
     Collaboration.configure({
       document: doc, // Configure Y.Doc for collaboration
+    }),
+    TextAlign.configure({
+      types: ['heading', 'paragraph']
     })
   ];
 
