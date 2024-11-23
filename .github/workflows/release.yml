@@ -18,8 +18,8 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Build zip file
-        run: yarn build
+      - name: Build and package into a zip file
+        run: yarn package
 
       - name: Upload to Chrome Web Store
         uses: mobilefirstllc/cws-publish@latest
