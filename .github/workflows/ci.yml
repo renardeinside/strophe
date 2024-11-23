@@ -20,7 +20,9 @@ jobs:
 
       - name: Lint
         run: yarn lint
-        
+
+      - name: Install Playwright Browsers
+        run: npx playwright install chromium
       
       # note: we need to build before running tests because it's a chrome extension
       - name: Test
