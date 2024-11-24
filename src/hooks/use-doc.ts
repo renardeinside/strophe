@@ -1,6 +1,7 @@
 import * as Y from "yjs";
 import { IndexeddbPersistence } from "y-indexeddb";
 import { useEffect } from "react";
+import { toast } from "sonner";
 
 export const getSyncedDoc = () => {
   let status = "pending";
@@ -44,6 +45,7 @@ export const useDoc = () => {
     channel.onmessage = (event) => {
       if (event.data && event.data.type === "sync-update") {
         Y.applyUpdate(doc, event.data.update);
+        toast.success("Document was updated in another tab and synced here 🎉");
       }
     };
 
