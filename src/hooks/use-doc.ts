@@ -54,7 +54,7 @@ export const useDoc = () => {
         update,
       });
     });
-  }, []);
+  }, [doc]);
 
   return doc;
 };

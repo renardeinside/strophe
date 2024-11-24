@@ -31,7 +31,7 @@ const EditorView = ({ doc }: { doc: Y.Doc }) => {
     if (!editor.isFocused) {
       editor.commands.focus('end');
     }
-  }, []);
+  }, [editor]);
 
   return (
     <div className="flex px-8 pt-4 justify-center">
