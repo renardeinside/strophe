@@ -1,8 +1,9 @@
-import { EditorContent, useEditor } from "@tiptap/react";
-import { lazy, useEffect } from "react";
+import { EditorContent, Editor as TiptapEditor } from "@tiptap/react";
+import { lazy, Suspense, useEffect } from "react";
 import { loadExtensions } from "@/lib/extensions";
 import { LoaderCircle } from "lucide-react";
-import { useYDoc } from "@/hooks/use-doc";
+import { useDoc } from "@/hooks/use-doc";
+import * as Y from "yjs";
 
 const EditorMenu = lazy(() => import("./EditorMenu"));
 
@@ -15,10 +16,8 @@ const Loading = () => {
   );
 };
 
-const Editor = () => {
-  const { doc, loaded } = useYDoc();
-
-  const editor = useEditor({
+const EditorView = ({ doc }: { doc: Y.Doc }) => {
+  const editor = new TiptapEditor({
     extensions: [...loadExtensions(doc)],
     editorProps: {
       attributes: {
@@ -29,22 +28,26 @@ const Editor = () => {
   });
 
   useEffect(() => {
-    if (loaded && editor) {
-      editor.commands.focus("end");
+    if (!editor.isFocused) {
+      editor.commands.focus('end');
     }
-  }, [loaded, editor]);
-  
+  }, []);
+
   return (
-    <>
-      {loaded ? (
-        editor && (
-          <div className="flex px-8 pt-4 justify-center">
-            <EditorContent editor={editor} className="w-3/5" />
-            <EditorMenu editor={editor} />
-          </div>
-        )
-      ) :<Loading />}
-    </>
+    <div className="flex px-8 pt-4 justify-center">
+      <EditorContent editor={editor} className="w-3/5" />
+      <EditorMenu editor={editor} />
+    </div>
+  );
+};
+
+const Editor = () => {
+  const doc = useDoc();
+
+  return (
+    <Suspense fallback={<Loading />}>
+      <EditorView doc={doc} />
+    </Suspense>
   );
 };
 

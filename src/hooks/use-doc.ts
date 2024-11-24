@@ -1,13 +1,43 @@
-import { useEffect, useState } from "react";
 import * as Y from "yjs";
 import { IndexeddbPersistence } from "y-indexeddb";
+import { useEffect } from "react";
 
-export const useYDoc = () => {
-  const [doc] = useState(() => new Y.Doc());
-  const [loaded, setLoaded] = useState(false);
+export const getSynchedDoc = () => {
+  let status = "pending";
+  const doc = new Y.Doc();
+  const persistence = new IndexeddbPersistence("st-content", doc);
+
+  let suspender = new Promise((resolve, reject) => {
+    persistence.whenSynced
+      .then(() => {
+        status = "success";
+        resolve({ doc });
+      })
+      .catch((error) => {
+        status = "error";
+        reject(error);
+      });
+  });
+
+  return {
+    read() {
+      if (status === "pending") {
+        throw suspender;
+      } else if (status === "error") {
+        throw new Error("Persistence error");
+      } else {
+        return doc;
+      }
+    },
+  };
+};
+
+export const docResource = getSynchedDoc();
+
+export const useDoc = () => {
+  const doc = docResource.read();
 
   useEffect(() => {
-    const persistence = new IndexeddbPersistence("st-content", doc);
     const channel = new BroadcastChannel("st-channel-sync");
 
     // Listen for updates from other tabs
@@ -24,18 +54,7 @@ export const useYDoc = () => {
         update,
       });
     });
+  }, []);
 
-    // Wait for data to be loaded
-    persistence.whenSynced.then(() => {
-      setLoaded(true);
-    });
-
-    // Cleanup on unmount
-    return () => {
-      channel.close();
-      doc.destroy();
-    };
-  }, [doc]);
-
-  return { doc, loaded };
+  return doc;
 };
