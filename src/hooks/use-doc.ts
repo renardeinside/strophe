@@ -7,7 +7,7 @@ export const getSynchedDoc = () => {
   const doc = new Y.Doc();
   const persistence = new IndexeddbPersistence("st-content", doc);
 
-  let suspender = new Promise((resolve, reject) => {
+  const suspender = new Promise((resolve, reject) => {
     persistence.whenSynced
       .then(() => {
         status = "success";
