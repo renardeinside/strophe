@@ -65,13 +65,6 @@
 
 /* Basic editor styles */
 .tiptap {
-  p.is-editor-empty:first-child::before {
-    @apply text-foreground/50;
-    content: attr(data-placeholder);
-    float: left;
-    height: 0;
-    pointer-events: none;
-  }
 
   /* disable margin-bottom for paragraph elements under li */
   li > p {

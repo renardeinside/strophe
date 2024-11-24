@@ -1,5 +1,5 @@
 import { EditorContent, Editor as TiptapEditor } from "@tiptap/react";
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, Suspense, useEffect, useMemo } from "react";
 import { loadExtensions } from "@/lib/extensions";
 import { LoaderCircle } from "lucide-react";
 import { useDoc } from "@/hooks/use-doc";
@@ -17,19 +17,23 @@ const Loading = () => {
 };
 
 const EditorView = ({ doc }: { doc: Y.Doc }) => {
-  const editor = new TiptapEditor({
-    extensions: [...loadExtensions(doc)],
-    editorProps: {
-      attributes: {
-        class:
-          "!w-full prose !max-w-none dark:prose-invert prose-md leading-tight focus:outline-none min-h-[90vh]",
-      },
-    },
-  });
+  const editor = useMemo(
+    () =>
+      new TiptapEditor({
+        extensions: [...loadExtensions(doc)],
+        editorProps: {
+          attributes: {
+            class:
+              "!w-full prose !max-w-none dark:prose-invert prose-md leading-tight focus:outline-none min-h-[90vh]",
+          },
+        },
+      }),
+    [doc]
+  );
 
   useEffect(() => {
     if (!editor.isFocused) {
-      editor.commands.focus('end');
+      editor.commands.focus("end");
     }
   }, [editor]);
 
