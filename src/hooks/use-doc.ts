@@ -2,7 +2,7 @@ import * as Y from "yjs";
 import { IndexeddbPersistence } from "y-indexeddb";
 import { useEffect } from "react";
 
-export const getSynchedDoc = () => {
+export const getSyncedDoc = () => {
   let status = "pending";
   const doc = new Y.Doc();
   const persistence = new IndexeddbPersistence("st-content", doc);
@@ -32,7 +32,7 @@ export const getSynchedDoc = () => {
   };
 };
 
-export const docResource = getSynchedDoc();
+export const docResource = getSyncedDoc();
 
 export const useDoc = () => {
   const doc = docResource.read();
