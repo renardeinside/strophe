@@ -57,7 +57,7 @@ export const Editor = () => {
     if (!dbExists) {
       // Display welcome toast
       const timer = setTimeout(() => {
-        toast(<span>💜 Welcome to Strophe, your minimalistic notes</span>);
+        toast(<span>✨ Welcome to Strophe. Add some sparkle to your notes.</span>);
       }, 100);
 
       return () => clearTimeout(timer);
