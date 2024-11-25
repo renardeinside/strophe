@@ -2,8 +2,9 @@ import { EditorContent, Editor as TiptapEditor } from "@tiptap/react";
 import { lazy, Suspense, useEffect, useMemo } from "react";
 import { loadExtensions } from "@/lib/extensions";
 import { LoaderCircle } from "lucide-react";
-import { useDoc } from "@/hooks/use-doc";
+import { dbExistsResource, useDoc } from "@/hooks/use-doc";
 import * as Y from "yjs";
+import { toast } from "sonner";
 
 const EditorMenu = lazy(() => import("./EditorMenu"));
 
@@ -16,20 +17,23 @@ const Loading = () => {
   );
 };
 
-const EditorView = ({ doc }: { doc: Y.Doc }) => {
-  const editor = useMemo(
-    () =>
-      new TiptapEditor({
-        extensions: [...loadExtensions(doc)],
-        editorProps: {
-          attributes: {
-            class:
-              "!w-full prose !max-w-none dark:prose-invert prose-md leading-tight focus:outline-none min-h-[90vh]",
-          },
+const EditorView = ({ doc, firstLoad }: { doc: Y.Doc; firstLoad: boolean }) => {
+  const editor = useMemo(() => {
+    const editor = new TiptapEditor({
+      autofocus: true,
+      extensions: [...loadExtensions(doc)],
+      editorProps: {
+        attributes: {
+          class:
+            "!w-full prose !max-w-none dark:prose-invert prose-md leading-tight focus:outline-none min-h-[90vh]",
         },
-      }),
-    [doc]
-  );
+      },
+    });
+    if (firstLoad) {
+      editor.chain().setContent("<p></p>".repeat(10)).focus("end").run();
+    }
+    return editor;
+  }, [doc, firstLoad]);
 
   useEffect(() => {
     if (!editor.isFocused) {
@@ -45,12 +49,24 @@ const EditorView = ({ doc }: { doc: Y.Doc }) => {
   );
 };
 
-const Editor = () => {
+export const Editor = () => {
+  const dbExists = dbExistsResource.read();
   const doc = useDoc();
+
+  useEffect(() => {
+    if (!dbExists) {
+      // Display welcome toast
+      const timer = setTimeout(() => {
+        toast(<span>💜 Welcome to Strophe, your minimalistic notes</span>);
+      }, 100);
+
+      return () => clearTimeout(timer);
+    }
+  }, [dbExists, doc]);
 
   return (
     <Suspense fallback={<Loading />}>
-      <EditorView doc={doc} />
+      <EditorView doc={doc} firstLoad={!dbExists} />
     </Suspense>
   );
 };

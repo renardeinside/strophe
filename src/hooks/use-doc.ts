@@ -2,10 +2,39 @@ import * as Y from "yjs";
 import { IndexeddbPersistence } from "y-indexeddb";
 import { useEffect } from "react";
 
+const dbName = "st-content";
+
+export const getDbExists = () => {
+  let status = "pending";
+  let exists: boolean;
+
+  const suspender = indexedDB.databases().then((databases) => {
+    const dbExists = databases.some((db) => db.name === dbName);
+    status = "success";
+    exists = dbExists;
+  }).catch(() => {
+    status = "error";
+  });
+
+  return {
+    read() {
+      if (status === "pending") {
+        throw suspender; // Suspend rendering until the promise resolves
+      } else if (status === "error") {
+        throw new Error("Database check failed");
+      } else {
+        return exists;
+      }
+    },
+  };
+};
+
+
 export const getSyncedDoc = () => {
   let status = "pending";
   const doc = new Y.Doc();
-  const persistence = new IndexeddbPersistence("st-content", doc);
+
+  const persistence = new IndexeddbPersistence(dbName, doc);
 
   const suspender = new Promise((resolve, reject) => {
     persistence.whenSynced
@@ -33,6 +62,7 @@ export const getSyncedDoc = () => {
 };
 
 export const docResource = getSyncedDoc();
+export const dbExistsResource = getDbExists();
 
 export const useDoc = () => {
   const doc = docResource.read();

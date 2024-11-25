@@ -41,6 +41,7 @@ export const loadExtensions = (doc: Y.Doc) => {
     Underline,
     StarterKit.configure({
       codeBlock: false,
+      history: false,
     }),
     CodeBlockLowlight.configure({
       lowlight,
