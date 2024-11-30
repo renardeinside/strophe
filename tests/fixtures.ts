@@ -46,3 +46,39 @@ export const test = base.extend<ExtensionFixtures>({
 });
 
 export { expect } from "@playwright/test";
+
+import { Locator } from '@playwright/test';
+
+/**
+ * Verifies that the Tiptap editor content contains the expected text.
+ *
+ * @param editorLocator - The Playwright locator for the editor element.
+ * @param expectedText - The text to verify is contained within the editor.
+ * @throws Error if the expected text is not found in the editor content.
+ */
+export async function contains(editorLocator: Locator, expectedText: string): Promise<void> {
+  const content = await editorLocator.innerText();
+
+  if (!content || !content.includes(expectedText)) {
+    throw new Error(`Expected text "${expectedText}" not found in editor content: "${content || ''}"`);
+  }
+
+  console.log(`Verified: Editor content contains the text "${expectedText}".`);
+}
+
+/**
+ * Verifies that the Tiptap editor content equals the expected text.
+ *
+ * @param editorLocator - The Playwright locator for the editor element.
+ * @param expectedText - The text to verify exactly matches the editor content.
+ * @throws Error if the editor content does not exactly match the expected text.
+ */
+export async function equals(editorLocator: Locator, expectedText: string): Promise<void> {
+  const content = await editorLocator.innerText();
+
+  if (content !== expectedText) {
+    throw new Error(`Editor content does not match. Expected: "${expectedText}", Found: "${content || ''}"`);
+  }
+
+  console.log(`Verified: Editor content equals the expected text "${expectedText}".`);
+}

@@ -10,7 +10,8 @@ import { nodePasteRule, type PasteRuleFinder } from "@tiptap/core";
 import * as Y from "yjs";
 import Collaboration from "@tiptap/extension-collaboration";
 import Underline from "@tiptap/extension-underline";
-import TextAlign from '@tiptap/extension-text-align'
+import TextAlign from "@tiptap/extension-text-align";
+import { CommitUndo } from "./CommitUndo";
 
 export const loadExtensions = (doc: Y.Doc) => {
   const ImageFinder: PasteRuleFinder = /data:image\//g;
@@ -35,6 +36,7 @@ export const loadExtensions = (doc: Y.Doc) => {
   });
 
   const lowlight = createLowlight(common);
+  console.log(doc);
 
   // define your extension array
   const extensions = [
@@ -58,8 +60,9 @@ export const loadExtensions = (doc: Y.Doc) => {
       document: doc, // Configure Y.Doc for collaboration
     }),
     TextAlign.configure({
-      types: ['heading', 'paragraph']
-    })
+      types: ["heading", "paragraph"],
+    }),
+    CommitUndo,
   ];
 
   return extensions;

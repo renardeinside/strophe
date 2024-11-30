@@ -5,9 +5,10 @@ test("make sure that text is persistent between page refreshes", async ({
   newtab,
 }) => {
   const testText = loremIpsum({ count: 1, units: "sentences" });
-  await newtab.keyboard.type(testText);
+  await newtab.keyboard.type(testText, {delay: 50});
 
-  // refresh the page
+  // refresh the page after 100ms
+  await new Promise((resolve) => setTimeout(resolve, 100));
   await newtab.reload();
 
   // wait for the text to sync
