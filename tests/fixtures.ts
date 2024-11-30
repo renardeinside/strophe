@@ -62,8 +62,6 @@ export async function contains(editorLocator: Locator, expectedText: string): Pr
   if (!content || !content.includes(expectedText)) {
     throw new Error(`Expected text "${expectedText}" not found in editor content: "${content || ''}"`);
   }
-
-  console.log(`Verified: Editor content contains the text "${expectedText}".`);
 }
 
 /**
@@ -79,6 +77,4 @@ export async function equals(editorLocator: Locator, expectedText: string): Prom
   if (content !== expectedText) {
     throw new Error(`Editor content does not match. Expected: "${expectedText}", Found: "${content || ''}"`);
   }
-
-  console.log(`Verified: Editor content equals the expected text "${expectedText}".`);
 }
