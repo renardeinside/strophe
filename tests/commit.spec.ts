@@ -1,7 +1,8 @@
 import { test, expect, getPreparedTab, equals } from "./fixtures";
 import { loremIpsum } from "lorem-ipsum";
 
-test("Ctrl+Z should only undo the last line after Enter", async ({
+// skipped because of https://github.com/microsoft/playwright/issues/33832
+test.skip("Ctrl+Z should only undo the last line after Enter", async ({
     context,
 }) => {
     const tab = await getPreparedTab(context);
@@ -30,7 +31,8 @@ test("Ctrl+Z should only undo the last line after Enter", async ({
     await equals(input, firstLine);
 });
 
-test("Ctrl+Z should only undo the last word after Space", async ({
+// skipped because of https://github.com/microsoft/playwright/issues/33832
+test.skip("Ctrl+Z should only undo the last word after Space", async ({
     context,
 }) => {
     const tab = await getPreparedTab(context);
