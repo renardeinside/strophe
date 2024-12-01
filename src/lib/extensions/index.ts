@@ -12,6 +12,7 @@ import Collaboration from "@tiptap/extension-collaboration";
 import Underline from "@tiptap/extension-underline";
 import TextAlign from "@tiptap/extension-text-align";
 import { CommitUndo } from "./CommitUndo";
+import ClearMarksOnEnter from "./ClearMarksOnEnter";
 
 export const loadExtensions = (doc: Y.Doc) => {
   const ImageFinder: PasteRuleFinder = /data:image\//g;
@@ -36,7 +37,6 @@ export const loadExtensions = (doc: Y.Doc) => {
   });
 
   const lowlight = createLowlight(common);
-  console.log(doc);
 
   // define your extension array
   const extensions = [
@@ -63,6 +63,7 @@ export const loadExtensions = (doc: Y.Doc) => {
       types: ["heading", "paragraph"],
     }),
     CommitUndo,
+    ClearMarksOnEnter
   ];
 
   return extensions;

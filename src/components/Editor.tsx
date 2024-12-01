@@ -43,7 +43,7 @@ const EditorView = ({ doc, firstLoad }: { doc: Y.Doc; firstLoad: boolean }) => {
 
   return (
     <div className="flex px-8 pt-4 justify-center">
-      <EditorContent editor={editor} className="w-3/5" />
+      <EditorContent editor={editor} className="w-4/5 max-w-screen-xl" />
       <EditorMenu editor={editor} />
     </div>
   );
