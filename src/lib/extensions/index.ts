@@ -63,7 +63,7 @@ export const loadExtensions = (doc: Y.Doc) => {
       types: ["heading", "paragraph"],
     }),
     CommitUndo,
-    ClearMarksOnEnter
+    ClearMarksOnEnter,
   ];
 
   return extensions;

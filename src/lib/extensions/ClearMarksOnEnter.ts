@@ -6,7 +6,6 @@ const ClearMarksOnEnter = Extension.create({
   addKeyboardShortcuts() {
     return {
       Enter: ({ editor }) => {
-        console.log("Enter key pressed");
         editor
           .chain()
           .unsetBold()

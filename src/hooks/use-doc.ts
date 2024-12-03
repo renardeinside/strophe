@@ -1,8 +1,9 @@
 import * as Y from "yjs";
 import { IndexeddbPersistence } from "y-indexeddb";
 import { useEffect } from "react";
+import { dbName } from "@/constants";
 
-const dbName = "st-content";
+
 
 export const getDbExists = () => {
   let status = "pending";
