@@ -45,7 +45,7 @@ const EditorView = ({ doc, firstLoad }: { doc: Y.Doc; firstLoad: boolean }) => {
           editor={editor}
           className="w-5/6 max-w-screen-xl flex-1"
         />
-        <div className="sticky bottom-0 h-64 w-full" onClick={() => {
+        <div className="h-32 w-full" onClick={() => {
           // Focus the editor at the end when clicking on the empty space
           editor.commands.focus("end");
         }}></div>
