@@ -21,7 +21,6 @@ const Loading = () => {
 const EditorView = ({ doc, firstLoad }: { doc: Y.Doc; firstLoad: boolean }) => {
   const editor = useMemo(() => {
     const editor = new TiptapEditor({
-      autofocus: true,
       extensions: [...loadExtensions(doc)],
       editorProps: {
         attributes: {
@@ -36,7 +35,7 @@ const EditorView = ({ doc, firstLoad }: { doc: Y.Doc; firstLoad: boolean }) => {
     return editor;
   }, [doc, firstLoad]);
 
-  usePosition(doc, editor);
+  usePosition(doc);
 
   return (
     <>
