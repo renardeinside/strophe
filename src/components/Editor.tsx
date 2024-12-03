@@ -5,6 +5,7 @@ import { LoaderCircle } from "lucide-react";
 import { dbExistsResource, useDoc } from "@/hooks/use-doc";
 import * as Y from "yjs";
 import { toast } from "sonner";
+import { usePosition } from "@/hooks/use-position";
 
 const EditorMenu = lazy(() => import("./EditorMenu"));
 
@@ -20,12 +21,11 @@ const Loading = () => {
 const EditorView = ({ doc, firstLoad }: { doc: Y.Doc; firstLoad: boolean }) => {
   const editor = useMemo(() => {
     const editor = new TiptapEditor({
-      autofocus: true,
       extensions: [...loadExtensions(doc)],
       editorProps: {
         attributes: {
           class:
-            "!w-full prose !max-w-none dark:prose-invert prose-md leading-tight focus:outline-none min-h-[90vh]",
+            "!w-full prose !max-w-none dark:prose-invert prose-md leading-tight focus:outline-none min-h-[60vh]",
         },
       },
     });
@@ -35,17 +35,22 @@ const EditorView = ({ doc, firstLoad }: { doc: Y.Doc; firstLoad: boolean }) => {
     return editor;
   }, [doc, firstLoad]);
 
-  useEffect(() => {
-    if (!editor.isFocused) {
-      editor.commands.focus("end");
-    }
-  }, [editor]);
+  usePosition(doc);
 
   return (
-    <div className="flex px-8 pt-4 justify-center">
-      <EditorContent editor={editor} className="w-4/5 max-w-screen-xl" />
+    <>
+      <div className="flex flex-col px-8 pt-4 justify-center items-center">
+        <EditorContent
+          editor={editor}
+          className="w-5/6 max-w-screen-xl flex-1"
+        />
+        <div className="h-32 w-full" onClick={() => {
+          // Focus the editor at the end when clicking on the empty space
+          editor.commands.focus("end");
+        }}></div>
+      </div>
       <EditorMenu editor={editor} />
-    </div>
+    </>
   );
 };
 
@@ -57,7 +62,9 @@ export const Editor = () => {
     if (!dbExists) {
       // Display welcome toast
       const timer = setTimeout(() => {
-        toast(<span>✨ Welcome to Strophe. Add some sparkle to your notes.</span>);
+        toast(
+          <span>✨ Welcome to Strophe. Add some sparkle to your notes.</span>
+        );
       }, 100);
 
       return () => clearTimeout(timer);
