@@ -4,8 +4,11 @@ import { loremIpsum } from "lorem-ipsum";
 test("make sure that text is persistent between page refreshes", async ({
   newtab,
 }) => {
+  // focus the editor
+  await newtab.click(".ProseMirror");
+  
   const testText = loremIpsum({ count: 1, units: "sentences" });
-  await newtab.keyboard.type(testText, {delay: 50});
+  await newtab.keyboard.type(testText, { delay: 50 });
 
   // refresh the page after 100ms
   await new Promise((resolve) => setTimeout(resolve, 100));
