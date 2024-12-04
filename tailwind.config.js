@@ -7,7 +7,7 @@ export default {
   theme: {
   	extend: {
       fontFamily: {
-        mono: ['"Fira Code"', 'monospace'],
+		mono: 'var(--font-mono)',
       },
   		borderRadius: {
   			lg: 'var(--radius)',

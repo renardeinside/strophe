@@ -1,3 +1,8 @@
+:root {
+  /* Please note font is imported in ./main.tsx */
+  --font-mono: 'JetBrains Mono Variable', monospace;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -25,6 +30,7 @@
     --ring: 307 23.3% 14.3%;
     --radius: 0.5rem;
   }
+
   .dark {
     --background: 307 40% 9%;
     --foreground: 307 5% 100%;
@@ -59,15 +65,16 @@
   }
 }
 
-.prose p {
-  @apply my-4 leading-tight; /* Tailwind utilities */
+.ProseMirror p {
+  @apply my-4;
+  /* Tailwind utilities */
 }
 
 /* Basic editor styles */
 .tiptap {
 
   /* disable margin-bottom for paragraph elements under li */
-  li > p {
+  li>p {
     margin-bottom: 0;
   }
 
@@ -156,16 +163,16 @@
       display: flex;
       margin-bottom: 0;
 
-      > label {
+      >label {
         flex: 0 0 auto;
         margin-right: 0.5rem;
         user-select: none;
       }
 
-      > div {
+      >div {
         flex: 1 1 auto;
 
-        > p {
+        >p {
           margin: 0;
         }
       }

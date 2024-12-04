@@ -25,7 +25,7 @@ const EditorView = ({ doc, firstLoad }: { doc: Y.Doc; firstLoad: boolean }) => {
       editorProps: {
         attributes: {
           class:
-            "!w-full prose !max-w-none dark:prose-invert prose-md leading-tight focus:outline-none min-h-[60vh]",
+            "!w-full prose !max-w-none dark:prose-invert prose-md leading-tight focus:outline-none min-h-[80vh]",
         },
       },
     });

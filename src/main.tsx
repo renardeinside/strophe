@@ -1,11 +1,11 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
-import './tailwind.css'
 
-// @ts-expect-error - for some reason this doesn't work in terms of importing the font
-// however, it works in the browser
-import '@fontsource-variable/fira-code';
+import '@fontsource-variable/jetbrains-mono/index.css';
+
+import './tailwind.css';
+
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
