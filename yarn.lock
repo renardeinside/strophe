@@ -373,11 +373,6 @@
   resolved "https://registry.yarnpkg.com/@fontsource-variable/jetbrains-mono/-/jetbrains-mono-5.1.1.tgz#d45ecec375900a89b64b8c3e260b51ad848ef11c"
   integrity sha512-V+1aRFRvuZ66PpO30s8l/2aADKzpV9VRsO3kSZE+rTMvi4vab3cUcPHMN2z+wAvjkYJO71Yf+g3/Y6pSMmQpVQ==
 
-"@fontsource/space-mono@^5.1.1":
-  version "5.1.1"
-  resolved "https://registry.yarnpkg.com/@fontsource/space-mono/-/space-mono-5.1.1.tgz#578ca4313f669eac19a98ea0c64b926005a980fe"
-  integrity sha512-v72P4frEQhldHTKQv0GqOF2JRRGhMrPAIj50v88qmW1aJW1SJAvjMtFOk/3D+L+dQM0fP2A1ZVzVkDbv8JGf7A==
-
 "@humanfs/core@^0.19.1":
   version "0.19.1"
   resolved "https://registry.npmjs.org/@humanfs/core/-/core-0.19.1.tgz"
