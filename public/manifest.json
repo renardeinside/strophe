@@ -12,9 +12,10 @@
   "icons": {
     "16": "favicon-16x16.png",
     "32": "favicon-32x32.png",
-    "57": "favicon-57x57.png",
-    "72": "favicon-72x72.png",
+    "48": "favicon-48x48.png",
+    "64": "favicon-64x64.png",
     "96": "favicon-96x96.png",
-    "114": "favicon-114x114.png"
+    "128": "favicon-128x128.png",
+    "256": "favicon-256x256.png"
   }
 }
