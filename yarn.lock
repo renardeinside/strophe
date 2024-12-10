@@ -1023,6 +1023,11 @@
   resolved "https://registry.npmjs.org/@tiptap/extension-text/-/extension-text-2.9.1.tgz"
   integrity sha512-3wo9uCrkLVLQFgbw2eFU37QAa1jq1/7oExa+FF/DVxdtHRS9E2rnUZ8s2hat/IWzvPUHXMwo3Zg2XfhoamQpCA==
 
+"@tiptap/extension-typography@^2.10.3":
+  version "2.10.3"
+  resolved "https://registry.yarnpkg.com/@tiptap/extension-typography/-/extension-typography-2.10.3.tgz#7f896a4fa16a14c6a1bd54b555f7e74235939254"
+  integrity sha512-lLUm6PSufACffAFQaK3bwoM3nFlQ/RdG21a3rKOoLWh+abYvIZ8UilYgebH9r2+DBET6UrG7I/0mBtm+L/Lheg==
+
 "@tiptap/extension-underline@^2.10.2":
   version "2.10.2"
   resolved "https://registry.yarnpkg.com/@tiptap/extension-underline/-/extension-underline-2.10.2.tgz#283bf0ca5b9dafb1a3609147427d93a4405e673e"

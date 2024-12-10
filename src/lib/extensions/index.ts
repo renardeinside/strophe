@@ -13,6 +13,7 @@ import Underline from "@tiptap/extension-underline";
 import TextAlign from "@tiptap/extension-text-align";
 import { CommitUndo } from "./CommitUndo";
 import ClearMarksOnEnter from "./ClearMarksOnEnter";
+import {Typography} from "@tiptap/extension-typography";
 
 export const loadExtensions = (doc: Y.Doc) => {
   const ImageFinder: PasteRuleFinder = /data:image\//g;
@@ -62,6 +63,7 @@ export const loadExtensions = (doc: Y.Doc) => {
     TextAlign.configure({
       types: ["heading", "paragraph"],
     }),
+    Typography,
     CommitUndo,
     ClearMarksOnEnter,
   ];
